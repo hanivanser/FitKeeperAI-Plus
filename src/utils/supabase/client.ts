@@ -1,4 +1,4 @@
-import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@supabase/ssr'
 
 export const createClient = () =>
   createBrowserClient(
@@ -7,8 +7,7 @@ export const createClient = () =>
     {
       auth: {
         flowType: 'pkce',
-        // Esto es lo que fuerza el redirect correcto
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
-      }
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      },
     }
   )
