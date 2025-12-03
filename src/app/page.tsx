@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { FcGoogle } from "react-icons/fc";
 
+
 export default function Home() {
   const supabase = createClient();
 
