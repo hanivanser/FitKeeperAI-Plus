@@ -7,7 +7,7 @@ export const createClient = () =>
     {
       auth: {
         flowType: 'pkce',
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        // QUITA ESTA LÍNEA → redirectTo ya no va aquí
       },
     }
   )
