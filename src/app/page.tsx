@@ -1,44 +1,30 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { FcGoogle } from "react-icons/fc";
-
 
 export default function Home() {
-  const supabase = createClient();
+  const router = useRouter();
 
-  const loginWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+  useEffect(() => {
+    // Login anónimo instantáneo → entras directo sin Google ni nada
+    const supabase = createClient();
+    supabase.auth.signInAnonymously().then(({ data }) => {
+      if (data.user) {
+        router.push("/dashboard");
+      }
     });
-  };
+  }, [router]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="w-full max-w-md space-y-12 text-center">
-        <div className="space-y-4">
-          <h1 className="text-6xl font-bold text-white tracking-tight">
-            FitKeeper<span className="text-cyan-300">AI</span>+
-          </h1>
-          <p className="text-xl text-teal-100">
-            Simple. Poderoso. Tuyo.
-          </p>
-        </div>
-
-        <button
-          onClick={loginWithGoogle}
-          className="w-full max-w-xs bg-white hover:bg-gray-100 text-gray-900 font-semibold py-7 px-10 text-lg rounded-2xl shadow-2xl flex items-center justify-center gap-4 transition-all hover:scale-105"
-        >
-          <FcGoogle className="text-3xl" />
-          Continuar con Google
-        </button>
-
-        <p className="text-sm text-teal-200">
-          Sin anuncios · Sin complicaciones · Solo progreso
-        </p>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-teal-900 via-cyan-800 to-blue-900">
+      <div className="text-center space-y-8">
+        <h1 className="text-6xl md:text-7xl font-bold text-white">
+          FitKeeper<span className="text-cyan-300">AI</span>+
+        </h1>
+        <p className="text-xl text-teal-100">Entrando a tu gimnasio personal...</p>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-300 mx-auto"></div>
       </div>
     </main>
   );
