@@ -1,5 +1,4 @@
-{
-  "dependencies": {
-    "@supabase/ssr": "^0.8.0"
-  }
+"dependencies": {
+  "next": "15.1.6",
+  // … el resto de paquetes que ya tengas
 }
