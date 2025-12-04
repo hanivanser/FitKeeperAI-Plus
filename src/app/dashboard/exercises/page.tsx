@@ -1,10 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import Link from "next/link";
 
-export const revalidate = 0; // Para que siempre lea datos frescos
+export const revalidate = 0;
 
 export default async function ExercisesPage() {
-  const supabase = createClient();
+  const supabase = createServerComponentClient({ cookies });
 
   const { data: exercises, error } = await supabase
     .from("exercises")
@@ -13,6 +14,7 @@ export default async function ExercisesPage() {
 
   if (error) {
     console.error("Error cargando ejercicios:", error);
+    return <div className="text-red-400">Error cargando ejercicios</div>;
   }
 
   const categories = [...new Set(exercises?.map(e => e.category) || [])];
