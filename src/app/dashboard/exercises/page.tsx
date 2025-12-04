@@ -1,23 +1,20 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import Link from "next/link";
-
-export const revalidate = 0;
+import { createClient } from '@/utils/supabase/server'
+import Link from "next/link"
 
 export default async function ExercisesPage() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient()
 
   const { data: exercises, error } = await supabase
     .from("exercises")
     .select("*")
-    .order("name");
+    .order("name")
 
   if (error) {
-    console.error("Error cargando ejercicios:", error);
-    return <div className="text-red-400">Error cargando ejercicios</div>;
+    console.error("Error cargando ejercicios:", error)
+    return <div className="text-red-400">Error cargando ejercicios</div>
   }
 
-  const categories = [...new Set(exercises?.map(e => e.category) || [])];
+  const categories = [...new Set(exercises?.map(e => e.category) || [])]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-6">
@@ -79,5 +76,5 @@ export default async function ExercisesPage() {
         </Link>
       </div>
     </div>
-  );
-}
+  )
+}}
