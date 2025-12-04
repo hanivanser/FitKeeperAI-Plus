@@ -1,39 +1,80 @@
-
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 
+export const revalidate = 0; // Para que siempre lea datos frescos
+
 export default async function ExercisesPage() {
-  const supabase = createServerComponentClient({ cookies })
-  const { data: exercises } = await supabase
+  const supabase = createClient();
+
+  const { data: exercises, error } = await supabase
     .from("exercises")
     .select("*")
     .order("name");
 
-  const categories = [...new Set(exercises?.map(e => e.category))];
+  // Si hay error (por ejemplo tabla no existe aún), no crashea
+  if (error) {
+    console.error("Error cargando ejercicios:", error);
+  }
+
+  const categories = [...new Set(exercises?.map(e => e.category) || [])];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-cyan-400">Ejercicios</h1>
-        
-        {categories.map(cat => (
-          <div key={cat} className="mb-8">
-            <h2 className="text-2xl font-bold text-cyan-300 mb-4">{cat}</h2>
-            <div className="grid gap-3">
-              {exercises
-                ?.filter(e => e.category === cat)
-                .map(ex => (
-                  <div key={ex.id} className="bg-gray-800 rounded-xl p-4 flex justify-between items-center hover:bg-gray-700 transition">
-                    <span className="text-lg">{ex.name}</span>
-                    <span className="text-gray-400 text-sm">{ex.equipment}</span>
-                  </div>
-                ))}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex justify-between items-center mb-10">
+          <h1 className="text-5xl font-bold text-cyan-400">Ejercicios</h1>
+          <Link
+            href="/dashboard"
+            className="text-cyan-300 hover:text-cyan-100 transition"
+          >
+            ← Volver
+          </Link>
+        </div>
+
+        {exercises && exercises.length > 0 ? (
+          categories.map(cat => (
+            <div key={cat} className="mb-12">
+              <h2 className="text-3xl font-bold text-cyan-300 mb-6 border-b border-cyan-800 pb-2">
+                {cat}
+              </h2>
+              <div className="grid gap-4">
+                {exercises
+                  .filter(ex => ex.category === cat)
+                  .map(ex => (
+                    <div
+                      key={ex.id}
+                      className="bg-gray-800/60 backdrop-blur-sm rounded-2xl p-5 flex justify-between items-center hover:bg-gray-700/80 transition-all border border-gray-700"
+                    >
+                      <div>
+                        <span className="text-xl font-semibold">{ex.name}</span>
+                        {ex.equipment && (
+                          <span className="ml-4 text-sm text-gray-400">
+                            ({ex.equipment})
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-cyan-400 text-2xl">›</span>
+                    </div>
+                  ))}
+              </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-2xl text-gray-400 mb-8">
+              Aún no hay ejercicios cargados
+            </p>
+            <p className="text-cyan-300">
+              Ejecuta el SQL que te pasé antes para meter los 150+ ejercicios
+            </p>
           </div>
-        ))}
-        
-        <Link href="/dashboard/exercises/add" className="fixed bottom-8 right-8 bg-cyan-500 text-black rounded-full w-16 h-16 flex items-center justify-center text-4xl shadow-2xl hover:bg-cyan-400 transition">
+        )}
+
+        {/* Botón flotante para añadir ejercicio (futuro) */}
+        <Link
+          href="/dashboard/exercises/add"
+          className="fixed bottom-8 right-8 bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-2xl rounded-full w-16 h-16 flex items-center justify-center shadow-2xl transition-all transform hover:scale-110"
+        >
           +
         </Link>
       </div>
