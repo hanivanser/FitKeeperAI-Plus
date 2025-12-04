@@ -1,7 +1,16 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/client",
 import { useEffect } from "react";
+
+export default async function ExercisesPage() {
+  const supabase = await createClient()
+
+  const { data: exercises } = await supabase
+    .from('exercises')
+    .select('*')
+    .order('name')
+
 
 export default function Dashboard() {
   return (
