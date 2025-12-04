@@ -11,7 +11,6 @@ export default async function ExercisesPage() {
     .select("*")
     .order("name");
 
-  // Si hay error (por ejemplo tabla no existe aún), no crashea
   if (error) {
     console.error("Error cargando ejercicios:", error);
   }
@@ -70,7 +69,6 @@ export default async function ExercisesPage() {
           </div>
         )}
 
-        {/* Botón flotante para añadir ejercicio (futuro) */}
         <Link
           href="/dashboard/exercises/add"
           className="fixed bottom-8 right-8 bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-2xl rounded-full w-16 h-16 flex items-center justify-center shadow-2xl transition-all transform hover:scale-110"
