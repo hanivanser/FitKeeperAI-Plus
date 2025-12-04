@@ -1,8 +1,10 @@
-import { createClient } from "../../../../utils/supabase/server";
+
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import Link from "next/link";
 
 export default async function ExercisesPage() {
-  const supabase = createClient();
+  const supabase = createServerComponentClient({ cookies })
   const { data: exercises } = await supabase
     .from("exercises")
     .select("*")
