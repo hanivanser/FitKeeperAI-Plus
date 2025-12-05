@@ -144,6 +144,30 @@ export default function WorkoutPage() {
               <div className="mb-8">
                 <p className="text-gray-400 text-sm">Entrada al gym</p>
                 <p className="text-5xl font-bold text-cyan-400">{entryTime}</p>
+                  {/* CONTROLES */}
+                  <div className="flex justify-center gap-6 mb-12">
+                    {!gymPaused ? (
+                      <button
+                        onClick={handleGymPause}
+                        className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-6 px-12 rounded-full"
+                      >
+                        PAUSAR
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleGymResume}
+                        className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-6 px-12 rounded-full"
+                      >
+                        REANUDAR
+                      </button>
+                    )}
+
+                    <button
+                      onClick={handleGymStop}
+                      className="bg-red-600 hover:bg-red-500 text-white font-bold text-xl py-6 px-12 rounded-full"
+                    >
+                      TERMINAR
+                    </button>
               </div>
             )}
 
@@ -153,32 +177,7 @@ export default function WorkoutPage() {
             </div>
             <p className="text-2xl mb-12">Tiempo en el gym</p>
 
-            {/* CONTROLES */}
-            <div className="flex justify-center gap-6 mb-12">
-              {!gymPaused ? (
-                <button
-                  onClick={handleGymPause}
-                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                >
-                  PAUSAR
-                </button>
-              ) : (
-                <button
-                  onClick={handleGymResume}
-                  className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                >
-                  REANUDAR
-                </button>
-              )}
-
-              <button
-                onClick={handleGymStop}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xl py-6 px-12 rounded-full"
-              >
-                TERMINAR
-              </button>
-            </div>
-
+            
             <Link
               href="/dashboard/exercises"
               className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xl py-6 px-16 rounded-full"
