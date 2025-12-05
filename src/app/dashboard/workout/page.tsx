@@ -135,186 +135,135 @@ export default function WorkoutPage() {
             </button>
 
             {/* ENTRENAMIENTO ACTIVO */}
-          {gymRunning && (
-            <div className="text-center">
-              {/* HORA DE ENTRADA */}
-              {entryTime && (
-                <div className="mb-8">
-                  <p className="text-gray-400 text-sm">Entrada al gym</p>
-                  <p className="text-5xl font-bold text-cyan-400">{entryTime}</p>
-                    
-                </div>
-              )}
-
-              {/* TIMER PRINCIPAL */}
-              <div className="text-8xl font-bold mb-8 text-green-400 tracking-wider">
-                {formatTime(gymSeconds)}
-              </div>
-              <p className="text-2xl mb-12">Tiempo en el gym</p>
-
-              {/* CONTROLES */}
-              <div className="flex justify-center gap-6 mb-12">
-                {!gymPaused ? (
-                  <button
-                    onClick={handleGymPause}
-                    className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                  >
-                    PAUSAR
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleGymResume}
-                    className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                  >
-                    REANUDAR
-                  </button>
+            {gymRunning && (
+              <div className="text-center">
+                {/* HORA DE ENTRADA */}
+                {entryTime && (
+                  <div className="mb-8">
+                    <p className="text-gray-400 text-sm">Entrada al gym</p>
+                    <p className="text-5xl font-bold text-cyan-400">{entryTime}</p>
+                      
+                  </div>
                 )}
 
-                <button
-                  onClick={handleGymStop}
-                  className="bg-red-600 hover:bg-red-500 text-white font-bold text-xl py-6 px-12 rounded-full"
+                {/* TIMER PRINCIPAL */}
+                <div className="text-8xl font-bold mb-8 text-green-400 tracking-wider">
+                  {formatTime(gymSeconds)}
+                </div>
+                <p className="text-2xl mb-12">Tiempo en el gym</p>
+
+                {/* CONTROLES */}
+                <div className="flex justify-center gap-6 mb-12">
+                  {!gymPaused ? (
+                    <button
+                      onClick={handleGymPause}
+                      className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-6 px-12 rounded-full"
+                    >
+                      PAUSAR
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleGymResume}
+                      className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-6 px-12 rounded-full"
+                    >
+                      REANUDAR
+                    </button>
+                  )}
+
+                  <button
+                    onClick={handleGymStop}
+                    className="bg-red-600 hover:bg-red-500 text-white font-bold text-xl py-6 px-12 rounded-full"
+                  >
+                    TERMINAR
+                  </button>
+                </div>
+
+                <Link
+                  href="/dashboard/exercises"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xl py-6 px-16 rounded-full"
                 >
-                  TERMINAR
-                </button>
-              </div>
-
-              <Link
-                href="/dashboard/exercises"
-                className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xl py-6 px-16 rounded-full"
-              >
-                + Añadir ejercicio
-              </Link>
-            </div>
-          )}  
-
-          </div>
-
-
-        )}
-
-        {/* ENTRENAMIENTO ACTIVO */}
-        {gymRunning && (
-          <div className="text-center">
-            {/* HORA DE ENTRADA */}
-            {entryTime && (
-              <div className="mb-8">
-                <p className="text-gray-400 text-sm">Entrada al gym</p>
-                <p className="text-5xl font-bold text-cyan-400">{entryTime}</p>
-                  
+                  + Añadir ejercicio
+                </Link>
               </div>
             )}
 
-            {/* TIMER PRINCIPAL */}
-            <div className="text-8xl font-bold mb-8 text-green-400 tracking-wider">
-              {formatTime(gymSeconds)}
-            </div>
-            <p className="text-2xl mb-12">Tiempo en el gym</p>
-
-            {/* CONTROLES */}
-            <div className="flex justify-center gap-6 mb-12">
-              {!gymPaused ? (
-                <button
-                  onClick={handleGymPause}
-                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                >
-                  PAUSAR
-                </button>
-              ) : (
-                <button
-                  onClick={handleGymResume}
-                  className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-6 px-12 rounded-full"
-                >
-                  REANUDAR
-                </button>
-              )}
-
-              <button
-                onClick={handleGymStop}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xl py-6 px-12 rounded-full"
-              >
-                TERMINAR
-              </button>
-            </div>
-
-            <Link
-              href="/dashboard/exercises"
-              className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xl py-6 px-16 rounded-full"
+            {/* ICONO CRONÓMETRO DESCANSO */}
+            <button
+              onClick={() => setShowRestTimer(true)}
+              className="fixed top-20 right-6 bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-full shadow-2xl z-50"
             >
-              + Añadir ejercicio
-            </Link>
+              <Timer size={32} />
+            </button>
+
+            {/* MODAL TIMER DESCANSO */}
+            {showRestTimer && (
+              <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
+                <div className="bg-gray-900 rounded-3xl p-10 max-w-sm w-full border border-purple-600">
+                  <div className="flex justify-between items-center mb-8">
+                    <h2 className="text-3xl font-bold text-purple-400">Descanso</h2>
+                    <button
+                      onClick={() => {
+                        setShowRestTimer(false);
+                        setRestRunning(false);
+                        setRestSeconds(0);
+                      }}
+                      className="text-4xl"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  <div className="text-7xl font-bold text-pink-400 text-center mb-10">
+                    {formatTime(restSeconds)}
+                  </div>
+
+                  <div className="flex justify-center gap-4">
+                    {!restRunning ? (
+                      <button
+                        onClick={() => setRestRunning(true)}
+                        className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-5 px-10 rounded-full"
+                      >
+                        INICIAR
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setRestRunning(false)}
+                        className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-5 px-10 rounded-full"
+                      >
+                        PAUSAR
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => {
+                        setRestSeconds(0);
+                        setRestRunning(false);
+                      }}
+                      className="bg-gray-700 hover:bg-gray-600 text-white font-bold text-xl py-5 px-8 rounded-full"
+                    >
+                      RESET
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* BOTÓN + FLOTANTE */}
+            {gymRunning && (
+              <Link
+                href="/dashboard/exercises"
+                className="fixed bottom-8 right-8 bg-green-500 text-black text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-40"
+              >
+                +
+              </Link>
+            )}
+
           </div>
+
+
         )}
 
-        {/* ICONO CRONÓMETRO DESCANSO */}
-        <button
-          onClick={() => setShowRestTimer(true)}
-          className="fixed top-20 right-6 bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-full shadow-2xl z-50"
-        >
-          <Timer size={32} />
-        </button>
-
-        {/* MODAL TIMER DESCANSO */}
-        {showRestTimer && (
-          <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-            <div className="bg-gray-900 rounded-3xl p-10 max-w-sm w-full border border-purple-600">
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-bold text-purple-400">Descanso</h2>
-                <button
-                  onClick={() => {
-                    setShowRestTimer(false);
-                    setRestRunning(false);
-                    setRestSeconds(0);
-                  }}
-                  className="text-4xl"
-                >
-                  ×
-                </button>
-              </div>
-
-              <div className="text-7xl font-bold text-pink-400 text-center mb-10">
-                {formatTime(restSeconds)}
-              </div>
-
-              <div className="flex justify-center gap-4">
-                {!restRunning ? (
-                  <button
-                    onClick={() => setRestRunning(true)}
-                    className="bg-green-500 hover:bg-green-400 text-black font-bold text-xl py-5 px-10 rounded-full"
-                  >
-                    INICIAR
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setRestRunning(false)}
-                    className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xl py-5 px-10 rounded-full"
-                  >
-                    PAUSAR
-                  </button>
-                )}
-
-                <button
-                  onClick={() => {
-                    setRestSeconds(0);
-                    setRestRunning(false);
-                  }}
-                  className="bg-gray-700 hover:bg-gray-600 text-white font-bold text-xl py-5 px-8 rounded-full"
-                >
-                  RESET
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* BOTÓN + FLOTANTE */}
-        {gymRunning && (
-          <Link
-            href="/dashboard/exercises"
-            className="fixed bottom-8 right-8 bg-green-500 text-black text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-40"
-          >
-            +
-          </Link>
-        )}
+        
       </div>
     </div>
   );
